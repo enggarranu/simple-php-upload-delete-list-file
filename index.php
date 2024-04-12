@@ -16,19 +16,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Directory Listing</title>
     <style>
-        form {
-            width: 300px;
-            margin-top: 20px;
-            margin-right: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
         body {
             font-family: Arial, sans-serif;
-            justify-content: flex-end; /* Memindahkan elemen ke kanan */
-            align-items: flex-start; /* Menyusun elemen di bagian atas */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-group {
+            display: flex;
+        }
+        .btn-group form {
+            margin-right: 10px;
         }
         table {
             border-collapse: collapse;
@@ -59,19 +60,34 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             border: 1px solid #ccc;
             border-radius: 3px;
             box-sizing: border-box;
+            background-color: #2ed267; /* Warna hijau */
+            color: white;
+            cursor: pointer;
         }
-        input[type="submit"] {
-            background-color: #d22e2e;
+        .delete-btn {
+            background-color: #d22e2e; /* Warna merah */
+            color: white;
+            cursor: pointer;
+        }
+        .back-btn {
+            background-color: #007bff; /* Warna biru */
             color: white;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h2>Directory Listing</h2>
-    <form action="logout.php">
-        <input type="submit" value="Logout from this session" />
-    </form>
+    <div class="header">
+        <h2>Directory /</h2>
+        <div class="btn-group">
+            <form action="../form_upload.php">
+                <input type="submit" value="Upload" />
+            </form>
+            <form action="../logout.php">
+                <input type="submit" value="Logout from this session" />
+            </form>
+        </div>
+    </div>
     <table>
         <tr>
             <th>Name</th>
@@ -87,7 +103,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             if ($dh = opendir($directory)) {
                 while (($file = readdir($dh)) !== false) {
                     // Exclude current directory (.) and parent directory (..)
-                    if ($file != '.' && $file != '..' && $file != 'index.php' && !preg_match('/.*process.*/', $file) && $file != 'login.php' && $file != 'logout.php') {
+                    if ($file != '.' && $file != '..' && $file != 'index.php' && !preg_match('/.*process.*/', $file) && $file != 'login.php' && $file != 'logout.php' && $file != 'form_upload.php' && $file != '.git') {
                         // Determine file type
                         $type = filetype($directory . '/' . $file);
                         // Get file size
